@@ -1,0 +1,197 @@
+@import "tailwindcss";
+
+/* =========================================================================
+   TOKENBENCH — design tokens
+   Subject: how language models chop text into tokens (BPE / subword).
+   Direction: a dark "type foundry / field guide". Deep petrol-ink stock,
+   bone text, one brass UI accent, and a functional jewel-tone token palette.
+   Typography: Bricolage Grotesque (display) · Hanken Grotesk (body) ·
+   JetBrains Mono (tokens / ids / data — earned, since tokens are units).
+   ========================================================================= */
+
+@theme {
+  /* surfaces */
+  --color-ink: #0a1a20;
+  --color-ink-2: #0f232a;
+  --color-ink-3: #16323b;
+  --color-ink-4: #1d414b;
+
+  /* text */
+  --color-bone: #f3efe4;
+  --color-bone-dim: #a3b6b0;
+  --color-bone-faint: #637b77;
+
+  /* single UI accent (brass) */
+  --color-brass: #e7b53f;
+
+  /* structural lines */
+  --color-rule: #213a40;
+
+  /* type roles */
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* functional token palette (muted jewel tones, dark text sits on top) */
+  --color-tok-0: #e5896b; /* clay    */
+  --color-tok-1: #e6c063; /* honey   */
+  --color-tok-2: #9fc278; /* moss    */
+  --color-tok-3: #4fb3a8; /* teal    */
+  --color-tok-4: #6fa8e6; /* sky     */
+  --color-tok-5: #a594e8; /* indigo  */
+  --color-tok-6: #d181ab; /* plum    */
+  --color-tok-7: #e07f95; /* rose    */
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-bone);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-brass);
+    color: var(--color-ink);
+  }
+
+  /* visible, on-brand focus ring for keyboard users */
+  :focus-visible {
+    outline: 2px solid var(--color-brass);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* quiet custom scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-ink-4) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--color-ink-4);
+    border-radius: 999px;
+    border: 2px solid var(--color-ink);
+  }
+}
+
+/* ---- keyframes --------------------------------------------------------- */
+@keyframes knife-sweep {
+  0% {
+    transform: translateX(-120%) skewX(-12deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(220%) skewX(-12deg);
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -180% 0;
+  }
+  100% {
+    background-position: 180% 0;
+  }
+}
+
+@keyframes float-drift {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(2deg);
+  }
+}
+
+@keyframes pulse-rule {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ---- utilities --------------------------------------------------------- */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* subtle paper-grain / pigment wash over the whole page */
+.bg-vat {
+  background-color: var(--color-ink);
+  background-image:
+    radial-gradient(
+      900px 520px at 78% -8%,
+      rgba(231, 181, 63, 0.07),
+      transparent 60%
+    ),
+    radial-gradient(
+      760px 600px at 8% 12%,
+      rgba(79, 179, 168, 0.08),
+      transparent 55%
+    );
+}
+
+.hairline {
+  background-color: var(--color-rule);
+}
+
+.shimmer {
+  background-image: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(243, 239, 228, 0.09) 50%,
+    transparent 80%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+/* a faint mono grid used as ambient texture behind sections */
+.grid-lines {
+  background-image:
+    linear-gradient(to right, rgba(243, 239, 228, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(243, 239, 228, 0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* animate the page-in knife sweep used when text re-tokenizes */
+.knife {
+  animation: knife-sweep 0.62s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.drift {
+  animation: float-drift 11s ease-in-out infinite;
+}
+
+/* ---- reduced motion: kill the motion, keep the meaning ------------------ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
